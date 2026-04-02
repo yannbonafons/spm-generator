@@ -19,4 +19,4 @@ targets:
       - package: $PACKAGE_NAME
 packages:
   $PACKAGE_NAME:
-    path: ../..
+    path: $PACKAGE_ABS_PATH
