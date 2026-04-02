@@ -1,0 +1,25 @@
+# $PACKAGE_NAME
+
+## Requirements
+
+- iOS 17+
+- Swift 6.0
+- Xcode 26+
+
+## Installation
+
+### Swift Package Manager
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/$GITHUB_USERNAME/$PACKAGE_NAME", from: "1.0.0")
+]
+```
+
+## Quick Start
+
+TBD
+
+## Example App: ${PACKAGE_NAME}App
+
+Launch the Example app located into `Example/` folder for more explanation.

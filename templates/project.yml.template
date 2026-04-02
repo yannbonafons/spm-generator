@@ -1,0 +1,22 @@
+name: $APP_NAME
+options:
+  bundleIdPrefix: com.example
+targets:
+  $APP_NAME:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+      PRODUCT_BUNDLE_IDENTIFIER: com.$GITHUB_USERNAME.$PACKAGE_NAME
+      SWIFT_VERSION: "6.3"
+      SWIFT_STRICT_CONCURRENCY: complete
+      SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+      SWIFT_APPROACHABLE_CONCURRENCY: YES
+    sources:
+      - Sources
+    dependencies:
+      - package: $PACKAGE_NAME
+packages:
+  $PACKAGE_NAME:
+    path: ../..

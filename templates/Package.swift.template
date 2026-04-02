@@ -1,0 +1,34 @@
+// swift-tools-version: 6.2
+import PackageDescription
+
+let package = Package(
+    name: "$PACKAGE_NAME",
+    platforms: [
+        .iOS(.v17)
+    ],
+    products: [
+        .library(
+            name: "$PACKAGE_NAME",
+            targets: ["$PACKAGE_NAME"]
+        ),
+    ],
+    targets: [
+        .target(
+            name: "$PACKAGE_NAME",
+            swiftSettings: [
+                .enableExperimentalFeature("ApproachableConcurrency"),
+                .defaultIsolation(MainActor.self),
+                .swiftLanguageMode(.v6)
+            ]
+        ),
+        .testTarget(
+            name: "${PACKAGE_NAME}Tests",
+            dependencies: ["$PACKAGE_NAME"],
+            swiftSettings: [
+                .enableExperimentalFeature("ApproachableConcurrency"),
+                .defaultIsolation(MainActor.self),
+                .swiftLanguageMode(.v6)
+            ]
+        ),
+    ]
+)

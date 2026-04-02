@@ -1,0 +1,43 @@
+// swift-tools-version: 6.2
+import PackageDescription
+
+let package = Package(
+    name: "$PACKAGE_NAME",
+    platforms: [
+        .iOS(.v17)
+    ],
+    products: [
+        .library(
+            name: "$PACKAGE_NAME",
+            targets: ["$PACKAGE_NAME"]
+        ),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/realm/SwiftLint", from: "0.57.0"),
+    ],
+    targets: [
+        .target(
+            name: "$PACKAGE_NAME",
+            swiftSettings: [
+                .enableExperimentalFeature("ApproachableConcurrency"),
+                .defaultIsolation(MainActor.self),
+                .swiftLanguageMode(.v6)
+            ],
+            plugins: [
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLint")
+            ]
+        ),
+        .testTarget(
+            name: "${PACKAGE_NAME}Tests",
+            dependencies: ["$PACKAGE_NAME"],
+            swiftSettings: [
+                .enableExperimentalFeature("ApproachableConcurrency"),
+                .defaultIsolation(MainActor.self),
+                .swiftLanguageMode(.v6)
+            ],
+            plugins: [
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLint")
+            ]
+        ),
+    ]
+)
