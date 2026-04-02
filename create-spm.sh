@@ -32,19 +32,31 @@ usage() {
 }
 
 # ── Arguments ─────────────────────────────────────────────────────────────────
-OUTPUT_DIR="$(pwd)"
+OUTPUT_DIR_OVERRIDE=""
 USE_SWIFTLINT=false
 USE_GIT=false
 
 while getopts ":o:sg" opt; do
   case $opt in
-    o) OUTPUT_DIR="$OPTARG" ;;
+    o) OUTPUT_DIR_OVERRIDE="$OPTARG" ;;
     s) USE_SWIFTLINT=true ;;
     g) USE_GIT=true ;;
     *) usage ;;
   esac
 done
 shift $((OPTIND - 1))
+
+# Resolve output directory:
+# 1. -o flag (explicit override)
+# 2. PACKAGES_DIR from .env
+# 3. hardcoded default: ./Packages (relative to script location)
+if [ -n "$OUTPUT_DIR_OVERRIDE" ]; then
+  OUTPUT_DIR="$OUTPUT_DIR_OVERRIDE"
+elif [ -n "$PACKAGES_DIR" ]; then
+  OUTPUT_DIR="$PACKAGES_DIR"
+else
+  OUTPUT_DIR="$SCRIPT_DIR"
+fi
 
 PACKAGE_NAME=$1
 if [ -z "$PACKAGE_NAME" ]; then

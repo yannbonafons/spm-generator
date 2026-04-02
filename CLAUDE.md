@@ -53,14 +53,15 @@ UserDefaultsStorage/                       # ⚠️ Generated packages — DO NO
 
 ## Configuration
 
-`GITHUB_USERNAME` is loaded from a `.env` file at the project root (ignored by git).
+Variables loaded from a `.env` file at the project root (ignored by git).
 
 ```
 # .env
 GITHUB_USERNAME=your_github_username
+PACKAGES_DIR=/absolute/or/relative/path/to/packages  # optional
 ```
 
-Copy `.env.example` → `.env` and fill in the value. The script errors out if the variable is not set.
+Copy `.env.example` → `.env` and fill in the values. `GITHUB_USERNAME` is required. `PACKAGES_DIR` is optional — if omitted, packages are generated in the script's directory.
 
 ## Template variable substitution
 
