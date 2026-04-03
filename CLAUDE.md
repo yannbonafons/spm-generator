@@ -15,11 +15,9 @@ templates/                                 # Template files used by the script
 .env                                       # Local config (git-ignored) — define GITHUB_USERNAME here
 .env.example                               # Template to copy for new users
 .swiftlint.yml                             # SwiftLint config, copied into packages generated with -s
-DateFormatter/                             # ⚠️ Generated packages — DO NOT modify
-Netcall/                                   # ⚠️ Generated packages — DO NOT modify
-PrintUI/                                   # ⚠️ Generated packages — DO NOT modify
-UserDefaultsStorage/                       # ⚠️ Generated packages — DO NOT modify
 ```
+
+Packages are generated in a separate directory defined by `PACKAGES_DIR` in `.env` (default: script directory).
 
 ## Usage
 
@@ -33,13 +31,13 @@ UserDefaultsStorage/                       # ⚠️ Generated packages — DO NO
 
 | Flag | Description |
 |------|-------------|
-| `-o dir` | Output directory (default: current directory) |
+| `-o dir` | Output directory (overrides `PACKAGES_DIR` from `.env`) |
 | `-s` | Add SwiftLint via SPM build tool plugin + copy `.swiftlint.yml` + run `swift package resolve` |
 | `-g` | Initialize git repository and prompt to create GitHub remote |
 
 ## What the script does (step by step)
 
-1. Resolves output directory (current dir or `-o` option)
+1. Resolves output directory: `-o` flag → `PACKAGES_DIR` in `.env` → script directory
 2. Runs `swift package init --type library`
 3. Fixes folder structure (`Sources/<Name>/`, `Tests/<Name>Tests/`)
 4. Generates `Package.swift` from template (with or without SwiftLint depending on `-s`)
@@ -47,7 +45,7 @@ UserDefaultsStorage/                       # ⚠️ Generated packages — DO NO
 6. Generates `README.md` from template
 7. Generates `CLAUDE.md` from template
 8. Creates Example app (`<Name>App`) with `project.yml` for XcodeGen
-9. Runs `xcodegen generate` if available
+9. Runs `xcodegen generate`
 10. **`-s` only** — Runs `swift package resolve` to pre-fetch SwiftLint into cache
 11. **`-g` only** — `git init` + first commit, then prompts to create GitHub repo
 
@@ -67,11 +65,11 @@ Copy `.env.example` → `.env` and fill in the values. `GITHUB_USERNAME` is requ
 
 Templates use `$VAR` syntax, substituted at generation time via `envsubst`.
 
-| Variable           | Value                              |
-|--------------------|------------------------------------|
-| `$PACKAGE_NAME`    | Name passed to the script          |
-| `$APP_NAME`        | `${PACKAGE_NAME}App`               |
-| `$GITHUB_USERNAME` | Loaded from `.env`                 |
+| Variable            | Value                                        |
+|---------------------|----------------------------------------------|
+| `$PACKAGE_NAME`     | Name passed to the script                    |
+| `$APP_NAME`         | `${PACKAGE_NAME}App`                         |
+| `$GITHUB_USERNAME`  | Loaded from `.env`                           |
 
 ## Rules for working on this project
 
@@ -85,6 +83,6 @@ Templates use `$VAR` syntax, substituted at generation time via `envsubst`.
 - Swift 6.2 (`swift-tools-version: 6.2`)
 - iOS 17+ minimum deployment
 - Strict concurrency: `MainActor` default isolation, `ApproachableConcurrency` enabled
-- SwiftLint via SPM build tool plugin (`SwiftLintBuildToolPlugin`)
+- SwiftLint via SPM build tool plugin (`SwiftLintBuildToolPlugin`) — optional, with `-s`
 - Swift Testing (not XCTest)
 - XcodeGen for the Example app (`project.yml`)
