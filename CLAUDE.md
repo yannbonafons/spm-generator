@@ -45,7 +45,7 @@ Packages are generated in a separate directory defined by `PACKAGES_DIR` in `.en
 6. Generates `README.md` from template
 7. Generates `CLAUDE.md` from template
 8. Creates Example app (`<Name>App`) with `project.yml` for XcodeGen
-9. Runs `xcodegen generate`, then post-processes the `.pbxproj` to fix a XcodeGen/Xcode 26 compatibility issue (missing `package` backlink in `XCSwiftPackageProductDependency`)
+9. Runs `xcodegen generate`
 10. **`-s` only** — Runs `swift package resolve` to pre-fetch SwiftLint into cache
 11. **`-g` only** — `git init` + first commit, then prompts to create GitHub repo
 
@@ -70,7 +70,6 @@ Templates use `$VAR` syntax, substituted at generation time via `envsubst`.
 | `$PACKAGE_NAME`     | Name passed to the script                    |
 | `$APP_NAME`         | `${PACKAGE_NAME}App`                         |
 | `$GITHUB_USERNAME`  | Loaded from `.env`                           |
-| `$PACKAGE_ABS_PATH` | Absolute path of the generated package root  |
 
 ## Rules for working on this project
 

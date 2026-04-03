@@ -67,13 +67,12 @@ fi
 export PACKAGE_NAME
 export GITHUB_USERNAME
 export APP_NAME="${PACKAGE_NAME}App"
-export PACKAGE_ABS_PATH="${OUTPUT_DIR}/${PACKAGE_NAME}"
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 render_template() {
   local template="$1"
   local destination="$2"
-  envsubst '$PACKAGE_NAME $APP_NAME $GITHUB_USERNAME $PACKAGE_ABS_PATH' < "$template" > "$destination"
+  envsubst '$PACKAGE_NAME $APP_NAME $GITHUB_USERNAME' < "$template" > "$destination"
 }
 
 # ── Start ─────────────────────────────────────────────────────────────────────
@@ -152,27 +151,6 @@ render_template "$TEMPLATES_DIR/project.yml.template" project.yml
 
 if command -v xcodegen &> /dev/null; then
   xcodegen generate
-  # Fix XcodeGen output: add missing 'package' backlink in XCSwiftPackageProductDependency.
-  # XcodeGen doesn't generate this field, but Xcode 15+ requires it to resolve local packages.
-  PBXPROJ="${APP_NAME}.xcodeproj/project.pbxproj"
-  python3 - "$PBXPROJ" <<'PYTHON'
-import sys, re
-path = sys.argv[1]
-with open(path, 'r') as f:
-    content = f.read()
-# Add missing 'package' backlink in XCSwiftPackageProductDependency (only if absent)
-ref_match = re.search(r'(\w{24}) /\* (XCLocalSwiftPackageReference "[^"]*") \*/', content)
-if ref_match and 'package = ' not in content:
-    ref_uuid    = ref_match.group(1)
-    ref_comment = ref_match.group(2)
-    content = re.sub(
-        r'(isa = XCSwiftPackageProductDependency;\n(\t+))(productName)',
-        f'\\1package = {ref_uuid} /* {ref_comment} */;\n\\2\\3',
-        content
-    )
-with open(path, 'w') as f:
-    f.write(content)
-PYTHON
   echo "📱 Example app created: $APP_NAME"
 else
   echo "⚠️  xcodegen not installed → project.yml created, run 'xcodegen generate' manually"
