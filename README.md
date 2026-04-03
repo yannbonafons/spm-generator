@@ -31,6 +31,10 @@ cp .env.example .env
 | `-s` | Add SwiftLint via SPM build tool plugin |
 | `-g` | Initialize git repository and prompt to create GitHub remote |
 
+## License
+
+MIT — see [LICENSE](LICENSE).
+
 ## What gets generated
 
 ```

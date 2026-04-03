@@ -22,12 +22,13 @@ fi
 
 # ── Usage ─────────────────────────────────────────────────────────────────────
 usage() {
-  echo "Usage: ./create-spm.sh [-o output_dir] [-s] [-g] PackageName"
+  echo "Usage: ./create-spm.sh [-o output_dir] [-s] [-g] [-l] PackageName"
   echo ""
   echo "  PackageName   Name of the SPM library to create"
   echo "  -o dir        Output directory (default: current directory)"
   echo "  -s            Add SwiftLint via SPM build tool plugin"
   echo "  -g            Initialize git repository and prompt for GitHub remote"
+  echo "  -l            Add MIT LICENSE file and license mention in README"
   exit 1
 }
 
@@ -35,12 +36,14 @@ usage() {
 OUTPUT_DIR_OVERRIDE=""
 USE_SWIFTLINT=false
 USE_GIT=false
+USE_LICENSE=false
 
-while getopts ":o:sg" opt; do
+while getopts ":o:sgl" opt; do
   case $opt in
     o) OUTPUT_DIR_OVERRIDE="$OPTARG" ;;
     s) USE_SWIFTLINT=true ;;
     g) USE_GIT=true ;;
+    l) USE_LICENSE=true ;;
     *) usage ;;
   esac
 done
@@ -80,6 +83,7 @@ echo "🚀 Creating package: $PACKAGE_NAME"
 echo "   → Output:    $OUTPUT_DIR/$PACKAGE_NAME"
 echo "   → SwiftLint: $USE_SWIFTLINT"
 echo "   → Git:       $USE_GIT"
+echo "   → License:   $USE_LICENSE"
 echo ""
 
 mkdir -p "$OUTPUT_DIR"
@@ -119,6 +123,16 @@ fi
 # 5. README.md from template
 render_template "$TEMPLATES_DIR/README.md.template" README.md
 echo "📄 README.md created"
+
+# 5b. LICENSE + README mention (-l only)
+if [ "$USE_LICENSE" = true ]; then
+  render_template "$TEMPLATES_DIR/LICENSE.template" LICENSE
+  echo "" >> README.md
+  echo "## License" >> README.md
+  echo "" >> README.md
+  echo "MIT — see [LICENSE](LICENSE)." >> README.md
+  echo "⚖️  LICENSE (MIT) created"
+fi
 
 # 6. CLAUDE.md from template
 render_template "$TEMPLATES_DIR/CLAUDE.md.template" CLAUDE.md
