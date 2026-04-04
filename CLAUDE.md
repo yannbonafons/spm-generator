@@ -12,6 +12,7 @@ templates/                                 # Template files used by the script
   README.md.template                       # Package README
   CLAUDE.md.template                       # Context file for Claude in generated packages
   project.yml.template                     # XcodeGen config for the Example app
+  LICENSE.template                         # MIT license (used with -l)
 .env                                       # Local config (git-ignored) — define GITHUB_USERNAME here
 .env.example                               # Template to copy for new users
 .swiftlint.yml                             # SwiftLint config, copied into packages generated with -s
@@ -22,11 +23,12 @@ Packages are generated in a separate directory defined by `PACKAGES_DIR` in `.en
 ## Usage
 
 ```bash
-./create-spm.sh MyPackage                       # local package, no SwiftLint, no git
-./create-spm.sh -s MyPackage                    # with SwiftLint SPM plugin
-./create-spm.sh -g MyPackage                    # with git init + GitHub prompt
-./create-spm.sh -s -g MyPackage                 # with SwiftLint + git
-./create-spm.sh -o /path/to/dir -s -g MyPackage # custom output dir + all options
+./create-spm.sh MyPackage                          # local package, no SwiftLint, no git
+./create-spm.sh -s MyPackage                       # with SwiftLint SPM plugin
+./create-spm.sh -g MyPackage                       # with git init + GitHub prompt
+./create-spm.sh -l MyPackage                       # with MIT LICENSE file
+./create-spm.sh -s -g -l MyPackage                 # with SwiftLint + git + license
+./create-spm.sh -o /path/to/dir -s -g -l MyPackage # custom output dir + all options
 ```
 
 | Flag | Description |
@@ -34,6 +36,7 @@ Packages are generated in a separate directory defined by `PACKAGES_DIR` in `.en
 | `-o dir` | Output directory (overrides `PACKAGES_DIR` from `.env`) |
 | `-s` | Add SwiftLint via SPM build tool plugin + copy `.swiftlint.yml` + run `swift package resolve` |
 | `-g` | Initialize git repository and prompt to create GitHub remote |
+| `-l` | Add MIT LICENSE file + license mention in README |
 
 ## What the script does (step by step)
 
@@ -43,11 +46,12 @@ Packages are generated in a separate directory defined by `PACKAGES_DIR` in `.en
 4. Generates `Package.swift` from template (with or without SwiftLint depending on `-s`)
 5. **`-s` only** — Copies `.swiftlint.yml` from project root into the generated package
 6. Generates `README.md` from template
-7. Generates `CLAUDE.md` from template
-8. Creates Example app (`<Name>App`) with `project.yml` for XcodeGen
-9. Runs `xcodegen generate`
-10. **`-s` only** — Runs `swift package resolve` to pre-fetch SwiftLint into cache
-11. **`-g` only** — `git init` + first commit, then prompts to create GitHub repo
+7. **`-l` only** — Generates `LICENSE` (MIT) from template + appends license section to `README.md`
+8. Generates `CLAUDE.md` from template
+9. Creates Example app (`<Name>App`) with `project.yml` for XcodeGen
+10. Runs `xcodegen generate`
+11. **`-s` only** — Runs `swift package resolve` to pre-fetch SwiftLint into cache
+12. **`-g` only** — `git init` + first commit, then prompts to create GitHub repo
 
 ## Configuration
 

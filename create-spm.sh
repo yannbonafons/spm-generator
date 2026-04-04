@@ -196,8 +196,8 @@ if [ "$USE_GIT" = true ]; then
   git add .
   git commit -m "Initial commit: $PACKAGE_NAME"
   git branch -M main
-  #git remote add origin git@github.com:$GITHUB_USERNAME/$PACKAGE_NAME
-  #git push -u origin main
+  git remote add origin git@github.com:$GITHUB_USERNAME/$PACKAGE_NAME
+  git push -u origin main
 fi
 
 echo ""

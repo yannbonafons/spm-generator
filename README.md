@@ -18,11 +18,12 @@ cp .env.example .env
 ## Usage
 
 ```bash
-./create-spm.sh MyPackage                       # local package, no SwiftLint, no git
-./create-spm.sh -s MyPackage                    # with SwiftLint SPM plugin
-./create-spm.sh -g MyPackage                    # with git init + GitHub prompt
-./create-spm.sh -s -g MyPackage                 # with SwiftLint + git
-./create-spm.sh -o /path/to/dir -s -g MyPackage # custom output dir + all options
+./create-spm.sh MyPackage                          # local package, no SwiftLint, no git
+./create-spm.sh -s MyPackage                       # with SwiftLint SPM plugin
+./create-spm.sh -g MyPackage                       # with git init + GitHub prompt
+./create-spm.sh -l MyPackage                       # with MIT LICENSE file
+./create-spm.sh -s -g -l MyPackage                 # with SwiftLint + git + license
+./create-spm.sh -o /path/to/dir -s -g -l MyPackage # custom output dir + all options
 ```
 
 | Flag | Description |
@@ -30,6 +31,7 @@ cp .env.example .env
 | `-o dir` | Output directory (overrides `PACKAGES_DIR` from `.env`) |
 | `-s` | Add SwiftLint via SPM build tool plugin |
 | `-g` | Initialize git repository and prompt to create GitHub remote |
+| `-l` | Add MIT LICENSE file + license mention in README |
 
 ## License
 
