@@ -7,14 +7,14 @@ Intro
 ```
 Sources/$PACKAGE_NAME/              # Library source code
 Tests/${PACKAGE_NAME}Tests/         # Unit tests
-Example/${PACKAGE_NAME}App/         # Demo app (Xcode project via project.yml)
+Example/${PACKAGE_NAME}App/         # Demo app (Xcode project)
 ```
 
 ## Stack
 
-- Swift 6, strict concurrency (`actor`, `Sendable`)
-- SPM (swift-tools-version: 6.2)
-- Minimum deployment: iOS 17
+- Swift 6.3, strict concurrency (`actor`, `Sendable`)
+- SPM (swift-tools-version: 6.3)
+- Minimum deployment: iOS 26
 - Testing framework: Swift Testing (`import Testing`)
 - Approachable concurrency: YES
 - Default actor isolation: MainActor

@@ -165,6 +165,7 @@ render_template "$TEMPLATES_DIR/project.yml.template" project.yml
 
 if command -v xcodegen &> /dev/null; then
   xcodegen generate
+  rm project.yml
   echo "📱 Example app created: $APP_NAME"
 else
   echo "⚠️  xcodegen not installed → project.yml created, run 'xcodegen generate' manually"
