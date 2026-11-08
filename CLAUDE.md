@@ -48,8 +48,8 @@ Packages are generated in a separate directory defined by `PACKAGES_DIR` in `.en
 6. Generates `README.md` from template
 7. **`-l` only** — Generates `LICENSE` (MIT) from template + appends license section to `README.md`
 8. Generates `CLAUDE.md` from template
-9. Creates Example app (`<Name>App`) with `project.yml` for XcodeGen
-10. Runs `xcodegen generate`
+9. Creates Example app (`<Name>App`) with a temporary `project.yml` for XcodeGen
+10. Runs `xcodegen generate`, then deletes `project.yml` (the `.xcodeproj` becomes the source of truth; `project.yml` is kept only if XcodeGen is not installed)
 11. **`-s` only** — Runs `swift package resolve` to pre-fetch SwiftLint into cache
 12. **`-g` only** — `git init` + first commit, then prompts to create GitHub repo
 
@@ -84,9 +84,9 @@ Templates use `$VAR` syntax, substituted at generation time via `envsubst`.
 
 ## Tech stack of generated packages
 
-- Swift 6.2 (`swift-tools-version: 6.2`)
-- iOS 17+ minimum deployment
+- Swift 6.3 (`swift-tools-version: 6.3`)
+- iOS 26+ minimum deployment
 - Strict concurrency: `MainActor` default isolation, `ApproachableConcurrency` enabled
 - SwiftLint via SPM build tool plugin (`SwiftLintBuildToolPlugin`) — optional, with `-s`
 - Swift Testing (not XCTest)
-- XcodeGen for the Example app (`project.yml`)
+- Example app generated once with XcodeGen, then a plain `.xcodeproj` (no `project.yml` kept)

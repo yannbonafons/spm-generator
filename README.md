@@ -5,8 +5,9 @@ Script to scaffold Swift Package Manager (SPM) library packages for iOS developm
 ## Requirements
 
 - Xcode 26+
+- [gettext](https://www.gnu.org/software/gettext) (`brew install gettext`)
 - [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`)
-- Swift 6.2+
+- Swift 6.3+
 
 ## Setup
 
@@ -41,7 +42,7 @@ MIT — see [LICENSE](LICENSE).
 
 ```
 MyPackage/
-├── Package.swift              # Swift 6.2, iOS 17+, strict concurrency
+├── Package.swift              # Swift 6.3, iOS 26+, strict concurrency
 ├── .swiftlint.yml             # copied from project root (-s only)
 ├── README.md
 ├── CLAUDE.md
@@ -50,6 +51,5 @@ MyPackage/
 └── Example/
     └── MyPackageApp/
         ├── Sources/MyPackageApp.swift
-        ├── project.yml
         └── MyPackageApp.xcodeproj
 ```
