@@ -94,6 +94,7 @@ cd "$PACKAGE_NAME"
 
 # 1. Create SPM package
 swift package init --type library --name "$PACKAGE_NAME"
+echo "Package.resolved" >> .gitignore
 
 # 2. Fix folder structure
 mkdir -p Sources/"$PACKAGE_NAME"
